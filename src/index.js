@@ -38,8 +38,11 @@ const addUser = data => {
     });
 };
 const updateUser = (id, data) => {
-  data.name = document.getElementById("name").value;
+  data.first_name = document.getElementById("first_name").value;
+  data.last_name = document.getElementById("last_name").value;
   data.email = document.getElementById("email").value;
+  data.company = document.getElementById("company").value;
+  data.phone = document.getElementById("phone").value;
   userServices
     .put(id, data)
     .then(response => {
@@ -70,9 +73,9 @@ const listUsers = data => {
   let list = document.querySelector(".--users-list");
   list.innerHTML = "";
   for (let i in data) {
-    list.innerHTML += `<li class="--details" ref="${data[i].id}">${
-      data[i].name
-    } <button class="--delete" ref="${data[i].id}">X</button></li> `;
+    list.innerHTML += `<li class="--details" ref="${data[i].id}">
+    ${data[i].first_name} ${data[i].last_name} 
+    <button class="--delete" ref="${data[i].id}">X</button></li> `;
   }
 };
 
@@ -97,14 +100,22 @@ const sysAlert = type => {
 
 //Actions
 document.getElementById("add").addEventListener("click", () => {
-  addUser({ name: "Alejandro Vivas", email: "ale@mail.com" });
+  addUser({
+    name: "Alejandro Vivas",
+    email: "ale@mail.com",
+    address: {
+      city: "Barquisimeto"
+    },
+    phone: "",
+    website: ""
+  });
 });
 document.addEventListener(
   "click",
   function(event) {
     if (event.target.matches(".--delete")) {
       deleteUser(
-        id,
+        event.target.getAttribute("ref"),
         _.findIndex(users, function(user) {
           return user.id == event.target.getAttribute("ref");
         })
@@ -133,13 +144,20 @@ document.addEventListener(
       userDetails.innerHTML = `
       <ul>
       <li>ID: ${user.id}</li>
-      <li>Name: <input type="text" value="${user.name}" id="name"></li>
+      <li>First Name: <input type="text" value="${
+        user.first_name
+      }" id="first_name"></li>
+      <li>Last Name: <input type="text" value="${
+        user.last_name
+      }" id="last_name"></li>
       <li>Email: <input type="email" value="${user.email}" id="email"></li>
-      <li>
+      <li>Phone: <input type="text" value="${user.phone}" id="phone"></li>
+      <li>Company: <input type="text" value="${user.company}" id="company"></li>
+      <li>Address: ${user.address}</li>
+      </ul>
       <button class="--update" ref="${user.id}">Update</button>
       <button class="--cancel">Close</button>
-      </li>
-      </ul>`;
+      `;
     }
   },
   false
