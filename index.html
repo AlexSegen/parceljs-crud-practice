@@ -1,0 +1,40 @@
+<html>
+
+<head>
+	<title>Parcel Sandbox</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<style>
+		.--details{
+			cursor:pointer;
+			margin-bottom:10px;
+		}
+		 .--details:hover,
+		 .--details:focus{
+			 color:orange;
+		 }
+		input{
+			padding:10px;
+			border:1px solid #ddd;
+			border-radius:3px;
+			margin-bottom:5px;
+		}
+		#--msg{
+			position:fixed;
+			bottom:50px;
+			right:10px;
+		}
+	</style>
+	<div id="app"></div>
+	<button id="add">Add user</button>
+	<div id="--msg"></div>
+	<ul class="--users-list"></ul>
+	<hr>
+	<div class="--user-details"></div>
+
+	<script src="src/index.js"></script>
+</body>
+
+</html>
