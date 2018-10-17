@@ -90,7 +90,6 @@ const sysAlert = type => {
     default:
       break;
   }
-
   setTimeout(function() {
     msg.innerHTML = "";
   }, 3000);
@@ -98,21 +97,16 @@ const sysAlert = type => {
 
 //Actions
 document.getElementById("add").addEventListener("click", () => {
-  let user = {
-    name: "Alejandro Vivas",
-    email: "ale@mail.com"
-  };
-  addUser(user);
+  addUser({ name: "Alejandro Vivas", email: "ale@mail.com" });
 });
 document.addEventListener(
   "click",
   function(event) {
     if (event.target.matches(".--delete")) {
-      let id = event.target.getAttribute("ref");
       deleteUser(
         id,
         _.findIndex(users, function(user) {
-          return user.id == id;
+          return user.id == event.target.getAttribute("ref");
         })
       );
     }
@@ -155,10 +149,12 @@ document.addEventListener(
   "click",
   function(event) {
     if (event.target.matches(".--update")) {
-      user = _.find(users, function(user) {
-        return user.id == event.target.getAttribute("ref");
-      });
-      updateUser(event.target.getAttribute("ref"), user);
+      updateUser(
+        event.target.getAttribute("ref"),
+        _.find(users, function(user) {
+          return user.id == event.target.getAttribute("ref");
+        })
+      );
     }
   },
   false
