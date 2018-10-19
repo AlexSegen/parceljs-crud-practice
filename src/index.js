@@ -1,26 +1,6 @@
 import _ from "underscore";
 import userServices from "./user.services";
-
-class User {
-  constructor() {
-    this.id = "";
-    this.guid = "";
-    this.isActive = false;
-    this.balance = "$0";
-    this.picture = "http://placehold.it/32x32";
-    this.age = 18;
-    this.first_name = "";
-    this.last_name = "";
-    this.company = "";
-    this.email = "";
-    this.phone = "";
-    this.address = "";
-    this.about = "";
-    this.registered = "";
-    this.greeting = "";
-    this.favoriteFruit = "strawberry";
-  }
-}
+import { User } from "./user.class";
 
 const printText = msg => {
   document.getElementById("app").innerHTML = `<h1>${msg}</h1>`;
@@ -35,7 +15,7 @@ userServices
     users = data;
     listUsers(
       _.sortBy(users, sort => {
-        return sort.id;
+        return sort.first_name;
       })
     );
   })
@@ -121,15 +101,20 @@ const sysAlert = type => {
 
 //Actions
 document.getElementById("add").addEventListener("click", () => {
-  addUser({
-    name: "Alejandro Vivas",
-    email: "ale@mail.com",
-    address: {
-      city: "Barquisimeto"
-    },
-    phone: "",
-    website: ""
-  });
+  let user = new User(
+    false,
+    "",
+    "",
+    32,
+    "Alejandro",
+    "Vivas",
+    "Chileautos SpA",
+    "avivas@chileautos.cl",
+    "+56 9357 37 201",
+    "Santiago",
+    ""
+  );
+  addUser(user);
 });
 document.addEventListener(
   "click",
@@ -164,17 +149,19 @@ document.addEventListener(
       });
       userDetails.innerHTML = `
       <ul>
-      <li>ID: ${user.id}</li>
+      <li>ID: ${user.id} Status : ${user.isActive ? "Active" : "Inactive"}</li>
       <li>First Name: <input type="text" value="${
         user.first_name
-      }" id="first_name"></li>
-      <li>Last Name: <input type="text" value="${
-        user.last_name
-      }" id="last_name"></li>
-      <li>Email: <input type="email" value="${user.email}" id="email"></li>
-      <li>Phone: <input type="text" value="${user.phone}" id="phone"></li>
+      }" id="first_name">
+Last Name: <input type="text" value="${user.last_name}" id="last_name">
+      </li>
+      <li>
+      Email: <input type="email" value="${user.email}" id="email">
+      Phone: <input type="text" value="${user.phone}" id="phone">
+      </li>
       <li>Company: <input type="text" value="${user.company}" id="company"></li>
       <li>Address: ${user.address}</li>
+      <li>Registered: ${user.registered}</li>
       </ul>
       <button class="--update" ref="${user.id}">Update</button>
       <button class="--cancel">Close</button>
